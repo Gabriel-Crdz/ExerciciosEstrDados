@@ -24,7 +24,7 @@ struct Tturma e; // a Turma pertence a uma escola
 
 /* Função para cadastrar a turma */
 int inserirAlunos(){
-    int numCadastros;
+    int numCadastros, i;
     printf("\n+====CADASTRO DA TURMA====\n"); // Informações da turma
     printf("|= Informe o serie de turma: ");
     scanf("%d", &e.serieTurma);
@@ -43,7 +43,7 @@ int inserirAlunos(){
     printf("..........................\n");
 
     printf("===CADASTRO DOS ALUNOS==="); // Dados dos alunos
-    for(int i = 0; i < numCadastros; i++){
+    for(i = 0; i < numCadastros; i++){
         printf("\n+== %dº aluno =>\n", i+1);
         printf("|= Nome: ");
         getchar();  // Apaga o ENTER deixado pelo scanf no buffer
@@ -71,10 +71,10 @@ int inserirAlunos(){
 }
 /* Função para listar os alunos da turma */
 int exibirAlunos(int n){
-    char temp;
+    char temp, i;
     printf("========LISTA DE ALUNOS========\n");
     printf("TURMA = Serie: %dº%c - Nº alunos: %d\n", e.serieTurma, e.letraTurma, n);
-    for(int i = 0; i < n; i++){
+    for(i = 0; i < n; i++){
         printf(".......................\n");
         printf("+== %dº aluno =>\n", i+1);
         printf("|- Nome: \t%s\n", e.turma[i].nome);
@@ -90,9 +90,39 @@ int exibirAlunos(int n){
     return 0;
 }
 /* Função para salvar em arquivo os alunos */
-int salvarAlunos(){}
+int salvarAlunos(int n){
+    FILE *arq; // Ponteiro do arquivo
+    arq = fopen("registro.bin", "wb+"); // Abre o arquivo com escrita(se nao existir cria)
+    if(!arq) {
+        printf("\n*******************************\n");
+        printf("ERRO: ao abrir/criar o arquivo!");
+        printf("*******************************\n");
+        fflush(stdout);
+        return 1;
+    }
+    size_t salvo = fwrite(&e.turma[0], sizeof(struct Taluno), n, arq); // 
+    
+    if(salvo != n || ferror(arq) != 0){
+        printf("\n**********************************\n");
+        printf("ERRO: dados gravados incorretamente!");
+        printf("**********************************\n");
+        fflush(stdout);
+        return 2;
+    }
+    fclose(arq); // Fecha o arquivo
+
+    printf("\n*******************************\n");
+    printf("SUCESSO: os dados foram salvos!");
+    printf("*******************************\n");
+    fflush(stdout);
+
+    return 0;
+}
 /* Função para carregar um arquivo de dados dos alunos */
-int carregarAlunos(){}
+int carregarAlunos(){
+    FILE *arq;
+    arq = fopen("registro.bin", "rb");
+}
 
 /* Função que mostra o menu */
 int menu(int n){
@@ -141,7 +171,7 @@ int main()
             case 2: exibirAlunos(numCadastros); // Chama a função para listar os alunos
                 break;
 
-            case 3: salvarAlunos(); // Chama a função para gravar os dados
+            case 3: salvarAlunos(numCadastros); // Chama a função para gravar os dados
                 break;
 
             case 4: carregarAlunos(); // Chama a função para armazenar na memoria os registros
