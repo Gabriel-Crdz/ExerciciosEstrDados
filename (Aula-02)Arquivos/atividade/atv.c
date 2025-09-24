@@ -18,6 +18,7 @@ struct Tturma{
     struct Taluno turma[tam]; // aluno pertence a uma turma
     int serieTurma;
     char letraTurma;
+    int qtdAlunos;
 };
 
 struct Tturma e; // a Turma pertence a uma escola
@@ -40,6 +41,7 @@ int inserirAlunos(){
             printf("*************************\n\n");
         }
     }while(numCadastros > tam);
+    e.qtdAlunos = numCadastros; // Salva a quantidade de alunos cadastrados
     printf("..........................\n");
 
     printf("===CADASTRO DOS ALUNOS==="); // Dados dos alunos
@@ -70,11 +72,12 @@ int inserirAlunos(){
 
 }
 /* Função para listar os alunos da turma */
-int exibirAlunos(int n){
-    char temp, i;
+int exibirAlunos(){
+    char temp;
+    int i;
     printf("========LISTA DE ALUNOS========\n");
-    printf("TURMA = Serie: %dº%c - Nº alunos: %d\n", e.serieTurma, e.letraTurma, n);
-    for(i = 0; i < n; i++){
+    printf("TURMA = Serie: %dº%c - Nº alunos: %d\n", e.serieTurma, e.letraTurma, e.qtdAlunos);
+    for(i = 0; i < e.qtdAlunos; i++){
         printf(".......................\n");
         printf("+== %dº aluno =>\n", i+1);
         printf("|- Nome: \t%s\n", e.turma[i].nome);
@@ -90,9 +93,11 @@ int exibirAlunos(int n){
     return 0;
 }
 /* Função para salvar em arquivo os alunos */
-int salvarAlunos(int n){
+int salvarAlunos(){
     FILE *arq; // Ponteiro do arquivo
     arq = fopen("registro.bin", "wb+"); // Abre o arquivo com escrita(se nao existir cria)
+    size_t salvo;
+
     if(!arq) {
         printf("\n*******************************\n");
         printf("ERRO: ao abrir/criar o arquivo!");
@@ -100,30 +105,53 @@ int salvarAlunos(int n){
         fflush(stdout);
         return 1;
     }
-    size_t salvo = fwrite(&e.turma[0], sizeof(struct Taluno), n, arq); // 
+    salvo = fwrite(&e, sizeof(struct Tturma), 1, arq); // 
     
-    if(salvo != n || ferror(arq) != 0){
+    if(salvo != 1 || ferror(arq) != 0){
         printf("\n**********************************\n");
         printf("ERRO: dados gravados incorretamente!");
         printf("**********************************\n");
-        fflush(stdout);
+        
         return 2;
     }
     fclose(arq); // Fecha o arquivo
 
     printf("\n*******************************\n");
-    printf("SUCESSO: os dados foram salvos!");
+    printf("SUCESSO: os dados foram salvos!\n");
     printf("*******************************\n");
-    fflush(stdout);
 
     return 0;
 }
 /* Função para carregar um arquivo de dados dos alunos */
 int carregarAlunos(){
     FILE *arq;
+    size_t lido;
     arq = fopen("registro.bin", "rb");
-}
-
+    
+    if(arq == NULL){
+        printf("\n**************************\n");
+        printf("ERRO: arquivo inexistente!\n");
+        printf("**************************\n");
+    }
+    else{
+        lido = fread(&e, sizeof(struct Tturma), 1, arq);
+        fclose(arq);
+                
+        if(lido == 1){
+            printf("\n**************************\n");
+            printf("SUCESSO: dados carregados!\n");
+            printf("**************************\n");
+            return e.qtdAlunos; // retorna o numero de alunos registrados
+        }
+        else{
+            printf("\n*******************************\n");
+            printf("ERRO: não foi possível carregar!\n");
+            printf("********************************\n");
+        }
+	}
+    
+    return 1;
+}   
 /* Função que mostra o menu */
 int menu(int n){
     int opc;
@@ -137,14 +165,16 @@ int menu(int n){
             printf("|.....................\n");
             printf("Escolha uma opção: ");
             scanf("%d", &opc);
-            getchar(); // Apaga o ENTER deixado pelo buffer
+            getchar(); // Limpa o ENTER
+
+            if(opc == 0) {break;}
 
             if(opc < 0 || opc > 4){
                 printf("\n************************\n");
                 printf("ERRO: Entrada Invalida!!\n");
                 printf("************************\n\n");
             }
-            else if(n == 0 && opc != 1){
+            else if(n == 0 && opc != 1 && opc != 4){
                 printf("\n****************************\n");
                 printf("ERRO: Nenhum cadastro feito!\n");
                 printf("****************************\n\n");
@@ -155,8 +185,7 @@ int menu(int n){
 }
 
 /* Função principal */
-int main()
-{
+int main(){
     int opc, numCadastros = 0;
     printf("*-*-*REGISTRO DE TURMA*-*-*\n\n");
 
@@ -168,13 +197,14 @@ int main()
                 numCadastros = inserirAlunos(); // Chama a função de cadastro
                 break;
 
-            case 2: exibirAlunos(numCadastros); // Chama a função para listar os alunos
+            case 2: exibirAlunos(); // Chama a função para listar os alunos
                 break;
 
-            case 3: salvarAlunos(numCadastros); // Chama a função para gravar os dados
+            case 3: salvarAlunos(); // Chama a função para gravar os dados
                 break;
 
-            case 4: carregarAlunos(); // Chama a função para armazenar na memoria os registros
+            case 4: 
+                numCadastros = carregarAlunos(); // Chama a função para armazenar na memoria os registros
                 break;
             
             case 0: printf("SAINDO...\n\n");
