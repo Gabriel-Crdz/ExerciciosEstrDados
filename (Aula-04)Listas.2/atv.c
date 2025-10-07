@@ -135,6 +135,7 @@ int main(){
 				printf("|= Informe o item a ser encontrado: ");
 				scanf("%d", &valor);
                 p = buscarElemento(l1, valor);
+                printf("Elemento: [%d]\n",p->dado);
                 printf(".......................\n");
                 break;
             case 5:    
