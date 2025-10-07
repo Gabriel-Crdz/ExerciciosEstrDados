@@ -91,7 +91,7 @@ int menu(){
         printf("| [4] Buscar elemento\n");
         printf("| [5] Imprimir lista\n");
         printf("| [0] Sair\n");
-        printf("|.....................\n");
+        printf("|......................\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opc);
         getchar();
@@ -106,7 +106,7 @@ int menu(){
 }
 
 int main(){
-    int opc, valor, qtdEl;
+    int opc, valor, qtd;
     Lista l1;
     l1 = criarLista();
     printf("=-=LISTA ENCADEADA ORDENADA=-=\n");
@@ -126,17 +126,16 @@ int main(){
                 l1 = removerElemento(l1, valor);
                 break;
             case 3:
-                qtdEl = contarElementos(l1);
-                printf("\nA [%d] elementos na lista\n", qtdEl);
-                printf("......................\n");
+                qtd = contarElementos(l1);
+                printf("\nA [%d] elementos na lista\n", qtd);
+                printf(".......................\n");
                 break;
             case 4: 
                 printf("+======BUSCA======\n");
 				printf("|= Informe o item a ser encontrado: ");
 				scanf("%d", &valor);
-                buscarElemento(l1, valor);
-                printf("...................\n");
-                
+                p = buscarElemento(l1, valor);
+                printf(".......................\n");
                 break;
             case 5:    
                 imprimirLista(l1);
