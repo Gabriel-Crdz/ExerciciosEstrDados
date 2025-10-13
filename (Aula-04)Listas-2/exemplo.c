@@ -109,7 +109,7 @@ int main(){
     int opc, valor, qtd;
     Lista l1;
     l1 = criarLista();
-    printf("=-=LISTA ENCADEADA ORDENADA=-=\n");
+    printf("=-=LISTA ENCADEADA=-=\n");
     do{
         opc = menu();
         switch(opc){
