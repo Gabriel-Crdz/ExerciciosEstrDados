@@ -7,6 +7,11 @@ int inserirVetor(int *dados, int tam){
         printf("Informe o %dº elemento: ", i+1);
         scanf("%d", &dados[i]);
     }
+    printf("\n=====SEU VETOR=====\n");
+    for(i = 0; i < tam; i++){
+        printf("[%d] ", i+1);
+    }
+    printf("\n");
     return *(dados);
 }
 int buscaSeq(int *dados, int tam, int valor){
@@ -49,7 +54,7 @@ int menu(){
     int opc;
     do{
         printf("\n+----------MENU----------\n");
-        printf("| [1] Inserir na Vetor\n");
+        printf("| [1] Inserir novo Vetor\n");
         printf("| [2] Busca Squencial\n");
         printf("| [3] Busca Binaria\n");
         printf("| [0] Sair\n");
@@ -70,6 +75,7 @@ int menu(){
 int main(){
     int i, opc, dados[TAM], valor, pos;
     printf("====BUSCAS EM VETORES====\n");
+    *dados = inserirVetor(dados, TAM);
     do{
         opc = menu();
         system("clear");
@@ -79,18 +85,21 @@ int main(){
             break;
             case 2: 
                 printf("+===SEQUENCIAL===\n");
-                printf("|Informe o valor buscado: ");
+                printf("| Informe o valor buscado: ");
                 scanf("%d", &valor);
                 pos = buscaSeq(dados, TAM, valor);
                 printf("RESULTADO:\n");
-                printf("Elemento encontrado na posição: %d", pos);
+                if(pos != 1) printf("Elemento encontrado na posição: %d", pos+1);
+                else printf("Elemento não encontrado!!\n");
             break;
             case 3: 
-                printf("\nInforme o valor buscado: ");
+		printf("+===BINARIA===\n");
+                printf("| Informe o valor buscado: ");
                 scanf("%d", &valor);
                 pos = buscaBin(dados, 0, TAM, valor);
                 printf("RESULTADO:\n");
-                printf("Elemento encontrado na posição: %d", pos);
+                if(pos != 1) printf("Elemento encontrado na posição: %d", pos+1);
+                else printf("Elemento não encontrado ou vetor não ordenado!!");
             break;
             default: printf("SAINDO...");
             break;
