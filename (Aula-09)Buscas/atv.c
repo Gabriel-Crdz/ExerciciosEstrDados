@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define TAM 10
+
 int inserirVetor(int *dados, int tam){
     int i;
     for(i = 0; i < tam; i++){
@@ -14,6 +15,7 @@ int inserirVetor(int *dados, int tam){
     printf("\n");
     return *(dados);
 }
+
 int buscaSeq(int *dados, int tam, int valor){
     int i= 0, pos = -1;
 
