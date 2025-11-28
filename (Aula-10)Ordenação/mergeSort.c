@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #define TAM 10
 
-int inserirVetor(int *dados, int tam){
+int inserirVetor(int *dados){
     int i;
-    for(i = 0; i < tam; i++){
+    for(i = 0; i < TAM; i++){
         printf("Informe o %dº elemento: ", i+1);
         scanf("%d", &dados[i]);
     }
@@ -12,25 +12,25 @@ int inserirVetor(int *dados, int tam){
     return *(dados);
 }
 /* 
-    Intercala dois subvetores do vetor vet no vetor aux.
-    O primeiro subvetor inicia na posição esq, e vai até meio
-    O segundo subvetor inicia na posição meio+1 e vai até dir 
+Intercala dois subvetores do vetor vet no vetor aux.
+O primeiro subvetor inicia na posição esq, e vai até meio
+O segundo subvetor inicia na posição meio+1 e vai até dir 
 */
-void merge(int *vet, int *aux, int esq, int meio, int dir) {
+void merge(int *dados, int *aux, int esq, int meio, int dir) {
 	int l1, l2, i;
 	/* Percorre os dois subvetores, comparando os elementos.
  	Escolhe o menor elemento para mover para o vetor auxiliar, até acabar um dos vetores */
 	for(l1 = esq, l2 = meio + 1, i = esq; l1 <= meio && l2 <= dir; i++) {
-		if(vet[l1] <= vet[l2]) aux[i] = vet[l1++];
-		else aux[i] = vet[l2++];
+		if(dados[l1] <= dados[l2]) aux[i] = dados[l1++];
+		else aux[i] = dados[l2++];
 	}
 	
 	// Quando encerrou o for, é porque um dos subvetores a ou b chegou ao fim
-	while(l1 <= meio) aux[i++] = vet[l1++]; // Se houver dados restantes no primeiro subvetor, copia
+	while(l1 <= meio) aux[i++] = dados[l1++]; // Se houver dados restantes no primeiro subvetor, copia
 
-	while(l2 <= dir) aux[i++] = vet[l2++]; // Se houver dados restantes no segundo subvetor, copia
+	while(l2 <= dir) aux[i++] = dados[l2++]; // Se houver dados restantes no segundo subvetor, copia
 	
-	for(i = esq; i <= dir; i++) vet[i] = aux[i]; // Move os dados do vetor auxiliar novamente para o vetor original
+	for(i = esq; i <= dir; i++) dados[i] = aux[i]; // Move os dados do vetor auxiliar novamente para o vetor original
 }
 
 void mergeSort(int *vet, int *aux, int esq, int dir) {
@@ -42,6 +42,14 @@ void mergeSort(int *vet, int *aux, int esq, int dir) {
 		merge(vet, aux, esq, meio, dir); // Intercala os dois subvetores
 	} 
 	else return;
+}
+
+void listarVetor(int *dados){
+    int i;
+    printf("+====VETOR====\n");
+    for(i =0; i < TAM; i++){
+        printf("|= %i - [%d]\n", i+1, dados[i]);
+    }
 }
 
 int menu(){
@@ -68,16 +76,21 @@ int menu(){
 }
 
 int main(){
-    int i, dados[TAM], aux[TAM];
+    int i, opc, dados[TAM], aux[TAM];
     printf("====ORDENAÇÃO MERGE SORT====\n");
-    *dados = inserirVetor(dados, TAM);
+    *dados = inserirVetor(dados);
     do{
         opc = menu();
         system("clear");
         switch(opc){
-            case 1: *dados = inserirVetor(dados, TAM);
+            case 1: *dados = inserirVetor(dados);
             break;
-            case 2: mergeSort(dados, aux, 0, TAM);
+            case 2: mergeSort(dados, aux, 0, TAM - 1);
+                printf("\n************************\n");
+                printf("SUCESSO: vetor ordenado!\n");
+                printf("************************\n");
+            break;
+            case 3: listarVetor(dados);
         }
     }while(opc != 0);
 	return 0;

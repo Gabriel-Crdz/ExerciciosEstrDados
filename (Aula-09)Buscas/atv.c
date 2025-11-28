@@ -10,7 +10,7 @@ int inserirVetor(int *dados, int tam){
     }
     printf("\n=====SEU VETOR=====\n");
     for(i = 0; i < tam; i++){
-        printf("[%d] ", i+1);
+        printf("[%d] ", dados[i]);
     }
     printf("\n");
     return *(dados);
@@ -91,16 +91,16 @@ int main(){
                 scanf("%d", &valor);
                 pos = buscaSeq(dados, TAM, valor);
                 printf("RESULTADO:\n");
-                if(pos != 1) printf("Elemento encontrado na posição: %d", pos+1);
+                if(pos != -1) printf("Elemento encontrado na posição: %d", pos+1);
                 else printf("Elemento não encontrado!!\n");
             break;
             case 3: 
 		printf("+===BINARIA===\n");
                 printf("| Informe o valor buscado: ");
                 scanf("%d", &valor);
-                pos = buscaBin(dados, 0, TAM, valor);
+                pos = buscaBin(dados, 0, TAM - 1, valor);
                 printf("RESULTADO:\n");
-                if(pos != 1) printf("Elemento encontrado na posição: %d", pos+1);
+                if(pos != -1) printf("Elemento encontrado na posição: %d", pos+1);
                 else printf("Elemento não encontrado ou vetor não ordenado!!");
             break;
             default: printf("SAINDO...");
