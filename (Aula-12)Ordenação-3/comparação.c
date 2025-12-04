@@ -8,16 +8,16 @@ void embaralharVetor(int *dados,int tam){
     int i, j, temp;
     for(i = 0; i < tam; i++){
         j = rand() % (i + 1);
-        temp = dados[i];
-        dados[i] = dados[j];
-        dados[j] = temp;
+        temp = dados[i]; // temp armazena um valor
+        dados[i] = dados[j]; // copia um valor de outra posição
+        dados[j] = temp; // salva o tempo na posição usada para a capia
     }
 }
 
 int inserirVetor(int *dados, int tam){
     int i;
-    for(i = 0; i < tam; i++) dados[i] = i + 1; 
-    embaralharVetor(dados, tam);
+    for(i = 0; i < tam; i++) dados[i] = i + 1;  // Gera um velor com valores entre 0 a tam N
+    embaralharVetor(dados, tam); // chama a função para aleatorizar
     return *(dados);
 }
 
@@ -31,13 +31,12 @@ void listarVetor(int *dados, int tam){
 
 int main(){
     int i, tam;
-    srand(time(NULL));
     
     /* Variaveis de tempo */
-    clock_t inicioMerge, inicioQuick, inicioBubble;
-    clock_t fimMerge, fimQuick, fimBubble;
-
-    double tempoMerge, tempoQuick, tempoBubble;
+    clock_t inicio, fim;
+    double tempo;
+    
+    srand(time(NULL)); // Semente
 
     printf("====COMPARAÇÃO DE ORDENAÇÕES====\n");
     printf("|= Informe o tamanho do vetor(max 1M): ");
@@ -54,22 +53,23 @@ int main(){
         vetQuick[i] = dados[i];
     }
         
-    inicioMerge = clock();
+    inicio = clock();
     mergeSort(vetMerge, aux, 0, tam - 1);
-    fimMerge = clock();
-    tempoMerge = ((double) (fimMerge - inicioMerge)) / CLOCKS_PER_SEC;
-    printf("\nTempo do Merge: %f segundos\n", tempoMerge);
+    fim = clock();
+    tempo= ((double) (fim - inicio)) / CLOCKS_PER_SEC;
+    printf("\nTempo do Merge: %f segundos\n", tempo);
 
-    inicioQuick = clock();
+    inicio = clock();
     quicksort(vetQuick, 0, tam - 1);
-    fimQuick = clock();
-    tempoQuick = ((double) (fimQuick - inicioQuick)) / CLOCKS_PER_SEC;
-    printf("\nTempo do Quick: %f segundos\n", tempoQuick);
+    fim = clock();
+    tempo = ((double) (fim - inicio)) / CLOCKS_PER_SEC;
+    printf("\nTempo do Quick: %f segundos\n", tempo);
 
-    inicioBubble = clock();
+    inicio = clock();
     bubbleSort(vetBubble, tam -1 );
-    fimBubble = clock();
-    tempoBubble = ((double) (fimBubble - inicioBubble)) / CLOCKS_PER_SEC;
-    printf("\nTempo do Bubble: %f segundos\n", tempoBubble);
+    fim = clock();
+    tempo = ((double) (fim - inicio)) / CLOCKS_PER_SEC;
+    printf("\nTempo do Bubble: %f segundos\n", tempo);
+    
 	return 0;
 }
