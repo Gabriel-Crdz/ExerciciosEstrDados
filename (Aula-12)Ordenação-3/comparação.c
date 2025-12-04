@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#define bool
 
 #define troca(A, B){int t = A; A = B; B = t; }
 #define TAM_VET 100000000
