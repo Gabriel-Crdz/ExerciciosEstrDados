@@ -1,6 +1,12 @@
 #include "ordena.h"
 
-#define troca(A, B){int t = A; A = B; B = t; }
+/* Tranformei o define troca em uma função para usar no comparação.c */
+void troca(int *A,int *B){
+    int t;
+    t = *A; 
+    *A = *B; 
+    *B = t; 
+}
 
 /* Ordenação por Bubble */
 void bubbleSort(int *vet, int n){
@@ -54,9 +60,9 @@ int particione(int a[], int p, int r){
         while (v < a[--j]) if (/*X*/ j == p) break;
         if (i >= j) break;
 
-        troca(a[i], a[j]);
+        troca(&a[i], &a[j]);
     }
-    troca(a[i], a[r]);
+    troca(&a[i], &a[r]);
     return i;
 }
 

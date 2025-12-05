@@ -8,9 +8,7 @@ void embaralharVetor(int *dados,int tam){
     int i, j, temp;
     for(i = 0; i < tam; i++){
         j = rand() % (i + 1);
-        temp = dados[i]; // temp armazena um valor
-        dados[i] = dados[j]; // copia um valor de outra posição
-        dados[j] = temp; // salva o tempo na posição usada para a capia
+        troca(&dados[i], &dados[j]); // Usando o troca usado pelo quickSort mas para embaralhar o vetor
     }
 }
 
@@ -23,7 +21,7 @@ int inserirVetor(int *dados, int tam){
 
 void listarVetor(int *dados, int tam){
     int i;
-    printf("+====VETOR====\n");
+    printf("+====VALORES DO VETOR====\n");
     for(i =0; i < tam; i++){
         printf("[%d] ", dados[i]);
     }
@@ -47,6 +45,7 @@ int main(){
     
     listarVetor(dados, tam);
 
+    /* Copiando para cada vetor que sera usado pelas ordenações */
     for(i = 0; i <  tam; i++){
         vetBubble[i] = dados[i];
         vetMerge[i] = dados[i];
